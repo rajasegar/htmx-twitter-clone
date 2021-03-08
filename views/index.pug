@@ -1,0 +1,17 @@
+doctype html
+html(lang="en")
+  head
+    title Twitter clone in htmx
+    link(href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css", rel="stylesheet", integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl", crossorigin="anonymous")
+    script(src="https://unpkg.com/htmx.org")
+  body
+    .container
+      h1.text-center htmx-<span class="text-muted">twitter</span>
+      h4 A Twitter clone in <a href="https://htmx.org">htmx</a> and Node
+      div(hx-ws="connect:/tweet", hx-swap="outerHTML")
+        form(hx-ws="send:submit")
+          .mb-3
+            textarea.form-control(rows="3", name="message")
+          .mb-3
+            button.btn.btn-primary(type="submit") Tweet
+      #timeline
