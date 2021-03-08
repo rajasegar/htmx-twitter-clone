@@ -29,12 +29,12 @@ const tweets = [];
 app.ws('/tweet', function(ws, req) {
   ws.on('message', function(msg) {
     //console.log(msg);
-    const { message } = JSON.parse(msg);
+    const { message, username } = JSON.parse(msg);
 
     tweets.push({
         id: v4(),
         message,
-        username: 'Raja',
+        username,
         retweets: 0,
         likes: 0,
         time: new Date().toString()
@@ -44,8 +44,9 @@ app.ws('/tweet', function(ws, req) {
 
     // Format time 
     const _tweets = tweets.map(t => {
-      t.time = dayjs().to(t.time);
-      return t;
+      console.log(t.time);
+      const time = dayjs().to(dayjs(t.time));
+      return {...t, time };
     });
     const markup = posts({ tweets: _tweets });
 

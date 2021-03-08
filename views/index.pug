@@ -6,12 +6,20 @@ html(lang="en")
     script(src="https://unpkg.com/htmx.org")
   body
     .container
-      h1.text-center htmx-<span class="text-muted">twitter</span>
-      h4 A Twitter clone in <a href="https://htmx.org">htmx</a> and Node
-      div(hx-ws="connect:/tweet", hx-swap="outerHTML")
-        form(hx-ws="send:submit")
-          .mb-3
-            textarea.form-control(rows="3", name="message")
-          .mb-3
-            button.btn.btn-primary(type="submit") Tweet
-      #timeline
+      .row.justify-content-center
+        .col-10
+          h2.text-center htmx-<span class="text-muted">twitter</span>
+          p.text-center A Twitter clone in <a href="https://htmx.org">htmx</a> and Node
+          div(hx-ws="connect:/tweet", hx-swap="outerHTML")
+            form(hx-ws="send:submit")
+              .mb-3.row
+                label.col-sm-2.col-form-label Name:
+                .col-sm-10
+                  input.form-control(type="text", name="username", required="true")
+              .mb-3.row
+                label.col-sm-2.col-form-label Message:
+                .col-sm-10
+                  textarea.form-control(rows="3", name="message", required="true")
+              .d-grid.gap-2.col-3.mx-auto.mb-3
+                  button.btn.btn-primary.text-center(type="submit") Tweet
+          #timeline
