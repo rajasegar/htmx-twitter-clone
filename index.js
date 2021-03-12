@@ -6,7 +6,6 @@ const dayjs = require('dayjs');
 const relativeTime = require('dayjs/plugin/relativeTime');
 const Chance = require('chance');
 
-
 const app = express();
 const expressWs = require('express-ws')(app);
 const PORT = process.env.PORT || 3000;
@@ -42,8 +41,9 @@ app.ws('/tweet', function(ws, req) {
         username,
         retweets: 0,
         likes: 0,
-        time: new Date().toString()
-      };
+      time: new Date().toString(),
+      avatar : 'https://ui-avatars.com/api/?background=random&rounded=true&name=' + username
+    };
 
     tweets.push(_tweet);
 
@@ -52,7 +52,6 @@ app.ws('/tweet', function(ws, req) {
     // Format time 
      _tweet.time = dayjs().to(dayjs(_tweet.time));
     const markup = posts({ t: _tweet });
-
 
     tweetChannel.clients.forEach(function (client) {
       client.send(markup);
