@@ -33,7 +33,7 @@ app.get('/', (req, res) => {
 
 
 app.ws('/tweet', function(ws, req) {
-    console.log(msg);
+  ws.on('message', function(msg) {
     const { message, username } = JSON.parse(msg);
 
     const _tweet = {
