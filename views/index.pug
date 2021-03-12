@@ -3,19 +3,20 @@ html(lang="en")
   head
     title Twitter clone in htmx
     link(href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css", rel="stylesheet", integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl", crossorigin="anonymous")
-    script(src="https://unpkg.com/htmx.org")
+    script(src="https://unpkg.com/htmx.org@1.3.1")
+    script(src="https://unpkg.com/hyperscript.org@0.0.5")
   body
     .container
       .row.justify-content-center
         .col-10
           h2.text-center htmx-<span class="text-muted">twitter</span>
           p.text-center A Twitter clone in <a href="https://htmx.org">htmx</a> and Node
-          div(hx-ws="connect:/tweet", hx-swap="outerHTML")
+          div(hx-ws="connect:/tweet")
             form(hx-ws="send:submit")
               .mb-3.row
                 label.col-sm-2.col-form-label Name:
                 .col-sm-10
-                  input.form-control(type="text", name="username", required="true")
+                  input.form-control(type="text", name="username", value=name, readonly)
               .mb-3.row
                 label.col-sm-2.col-form-label Message:
                 .col-sm-10

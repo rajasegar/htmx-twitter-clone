@@ -1,2 +1,1 @@
-span(id='like-' + id, hx-ws='connect:/like/' + id)
-  button.btn.btn-link(type="button", hx-ws="send") Like (#{likes})
+button.btn.btn-link(id='like-' + id,type="button", hx-post="/like/" + id) Like (#{likes})

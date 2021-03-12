@@ -4,11 +4,21 @@ const pug = require('pug');
 const { v4 } = require('uuid');
 const dayjs = require('dayjs');
 const relativeTime = require('dayjs/plugin/relativeTime');
-dayjs.extend(relativeTime);
+const Chance = require('chance');
+
 
 const app = express();
 const expressWs = require('express-ws')(app);
 const PORT = process.env.PORT || 3000;
+
+const tweetChannel  = expressWs.getWss('/tweet');
+
+const tweets = [];
+
+const chance = new Chance();
+let username = '';
+
+dayjs.extend(relativeTime);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -17,38 +27,32 @@ app.set('view engine','pug');
 app.use(express.static(__dirname + '/assets'));
 
 app.get('/', (req, res) => {
-  res.render('index');
+  username = chance.name();
+  res.render('index', { name: username });
 });
 
-const tweetChannel  = expressWs.getWss('/tweet');
-const likeChannel  = expressWs.getWss('/like');
-const retweetChannel  = expressWs.getWss('/retweet');
-
-const tweets = [];
 
 app.ws('/tweet', function(ws, req) {
-  ws.on('message', function(msg) {
-    //console.log(msg);
+    console.log(msg);
     const { message, username } = JSON.parse(msg);
 
-    tweets.push({
+    const _tweet = {
         id: v4(),
         message,
         username,
         retweets: 0,
         likes: 0,
         time: new Date().toString()
-      });
+      };
+
+    tweets.push(_tweet);
 
     const posts  = pug.compileFile('views/components/post.pug', { globals: ['global'] });
 
     // Format time 
-    const _tweets = tweets.map(t => {
-      console.log(t.time);
-      const time = dayjs().to(dayjs(t.time));
-      return {...t, time };
-    });
-    const markup = posts({ tweets: _tweets });
+     _tweet.time = dayjs().to(dayjs(_tweet.time));
+    const markup = posts({ t: _tweet });
+
 
     tweetChannel.clients.forEach(function (client) {
       client.send(markup);
@@ -56,32 +60,31 @@ app.ws('/tweet', function(ws, req) {
   });
 });
 
-app.ws('/like/:id', (ws, req) => {
-  ws.on('message', (msg) => {
-    const { id } = req.params;
+app.post('/like/:id', (req, res) => {
+const { id } = req.params;
     const tweet = tweets.find(t => t.id === id);
     tweet.likes += 1;
 
     const likes  = pug.compileFile('views/components/likes.pug');
     const markup = likes({ id, likes: tweet.likes });
-    likeChannel.clients.forEach(function (client) {
+    tweetChannel.clients.forEach(function (client) {
       client.send(markup);
     });
-  });
+
+  res.send(markup);
 });
 
-app.ws('/retweet/:id', (ws, req) => {
-  ws.on('message', (msg) => {
+app.post('/retweet/:id', (req, res) => {
     const { id } = req.params;
     const tweet = tweets.find(t => t.id === id);
     tweet.retweets += 1;
 
     const retweets  = pug.compileFile('views/components/retweets.pug');
     const markup = retweets({ id, retweets: tweet.retweets });
-    retweetChannel.clients.forEach(function (client) {
+    tweetChannel.clients.forEach(function (client) {
       client.send(markup);
     });
-  });
+  res.send(markup);
 });
 
 app.listen(PORT);

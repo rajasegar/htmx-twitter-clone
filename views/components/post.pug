@@ -1,13 +1,10 @@
-#timeline
-  each t in tweets
-    .card.mb-2(id=t.id)
-      .card-body
-        h5.card-title.text-muted
-          | #{t.username}
-          small : #{t.time}
-        .card-text.lead.mb-2
-          | #{t.message}
-        span(id='retweet-' + t.id, hx-ws='connect:/retweet/' + t.id)
-          button.btn.btn-link(type="button", hx-ws="send") Retweet (#{t.retweets})
-        span(id='like-' + t.id, hx-ws='connect:/like/' + t.id)
-          button.btn.btn-link(type="button", hx-ws="send") Like (#{t.likes})
+div(hx-swap-oob="afterbegin:#timeline")
+  .card.mb-2(id='tweet-' + t.id)
+    .card-body
+      h5.card-title.text-muted
+        | #{t.username}
+        small : #{t.time}
+      .card-text.lead.mb-2
+        | #{t.message}
+      button.btn.btn-link(id='retweet-' + t.id, type="button", hx-post="/retweet/" + t.id) Retweet (#{t.retweets})
+      button.btn.btn-link(id='like-' + t.id, type="button", hx-post="/like/" + t.id) Like (#{t.likes})

@@ -1,2 +1,1 @@
-span(id='retweet-' + id, hx-ws='connect:/retweet/' + id)
-  button.btn.btn-link(type="button", hx-ws="send") Retweet (#{retweets})
+button.btn.btn-link(id='retweet-' + id, type="button", hx-post="/retwee/" + id) Retweet (#{retweets})
