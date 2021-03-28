@@ -65,7 +65,7 @@ const { id } = req.params;
     tweet.likes += 1;
 
     const likes  = pug.compileFile('views/components/likes.pug');
-    const markup = likes({ id, likes: tweet.likes });
+    const markup = likes({ t: tweet });
     tweetChannel.clients.forEach(function (client) {
       client.send(markup);
     });
@@ -79,7 +79,7 @@ app.post('/retweet/:id', (req, res) => {
     tweet.retweets += 1;
 
     const retweets  = pug.compileFile('views/components/retweets.pug');
-    const markup = retweets({ id, retweets: tweet.retweets });
+    const markup = retweets({ t: tweet });
     tweetChannel.clients.forEach(function (client) {
       client.send(markup);
     });

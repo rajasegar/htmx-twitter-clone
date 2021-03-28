@@ -6,11 +6,10 @@ html(lang="en")
     script(src="https://unpkg.com/htmx.org@1.3.1")
     script(src="https://unpkg.com/hyperscript.org@0.0.5")
   body
-    header.d-flex.flex-column.flex-md-row.align-items-center.p-3.px-md-4.mb-3.bg-body.border-bottom.shadow-sm
-      p.h5.my-0.me-md-auto.fw-normal HTMX - Twitter
-      nav.my-2.my-md-0.me-md-3
-        a.p-2.text-dark(href='#') #{name}
-      //-a.btn.btn-outline-primary(href='#') Sign up
+    nav.navbar.navbar-dark.bg-primary.shadow-sm
+      .container
+        a.navbar-brand(href="#") htmx-twitter
+        span.navbar-text.text-white  #{name}
     .container
       .row.justify-content-center
         .col-10

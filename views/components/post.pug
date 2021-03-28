@@ -1,13 +1,13 @@
 div(hx-swap-oob="afterbegin:#timeline")
-  .card.mb-2(id='tweet-' + t.id)
+  .card.mb-2.shadow-sm(id='tweet-' + t.id)
     .card-body
       .d-flex
-        img.me-4(src=t.avatar)
+        img.me-4(src=t.avatar, width="108")
         div
           h5.card-title.text-muted
             | #{t.username}
             small : #{t.time}
           .card-text.lead.mb-2
             | #{t.message}
-          button.btn.btn-link(id='retweet-' + t.id, type="button", hx-post="/retweet/" + t.id) Retweet (#{t.retweets})
-          button.btn.btn-link(id='like-' + t.id, type="button", hx-post="/like/" + t.id) Like (#{t.likes})
+          include retweets
+          include likes
