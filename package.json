@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon index.js",
-    "start": "node index.js"
+    "start": "NODE_ENV=production node index.js"
   },
   "keywords": [],
   "author": "",
@@ -14,6 +14,7 @@
   "dependencies": {
     "body-parser": "^1.19.0",
     "chance": "^1.1.7",
+    "compression": "^1.7.4",
     "dayjs": "^1.10.4",
     "express": "^4.17.1",
     "express-ws": "^4.0.0",

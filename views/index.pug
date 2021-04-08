@@ -3,22 +3,23 @@ html(lang="en")
   head
     title Twitter clone in htmx
     link(href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css", rel="stylesheet", integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl", crossorigin="anonymous")
-    script(src="https://unpkg.com/htmx.org@1.3.1")
-    script(src="https://unpkg.com/hyperscript.org@0.0.5")
   body
-    nav.navbar.navbar-dark.bg-primary.shadow-sm
+    nav.navbar.navbar-dark.bg-dark.shadow-sm.py-0
       .container
         a.navbar-brand(href="#") htmx-twitter
         span.navbar-text.text-white  #{name}
     .container
       .row.justify-content-center
-        .col-10
-          p.text-center A Twitter clone in <a href="https://htmx.org">htmx</a> and Node
+        main.col-10
+          p.text-center.mt-2 A Twitter clone in <a href="https://htmx.org">htmx</a> and Node
           div(hx-ws="connect:/tweet")
             form(hx-ws="send:submit")
               input.form-control(type="hidden", name="username", value=name, readonly)
               .mb-3.row
-                textarea.form-control(rows="3", name="message", required="true")
+                label(for="txtMessage") Message:
+                textarea#txtMessage.form-control(rows="3", name="message", required="true")
               .d-grid.gap-2.col-3.mx-auto.mb-3
                   button.btn.btn-primary.text-center(type="submit") Tweet
           #timeline
+    script(src="https://unpkg.com/htmx.org@1.3.1")
+    script(src="https://unpkg.com/hyperscript.org@0.0.5")

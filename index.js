@@ -5,6 +5,7 @@ const { v4 } = require('uuid');
 const dayjs = require('dayjs');
 const relativeTime = require('dayjs/plugin/relativeTime');
 const Chance = require('chance');
+const compression = require('compression');
 
 const app = express();
 const expressWs = require('express-ws')(app);
@@ -24,6 +25,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine','pug');
 
 app.use(express.static(__dirname + '/assets'));
+app.use(compression());
 
 app.get('/', (req, res) => {
   username = chance.name();
